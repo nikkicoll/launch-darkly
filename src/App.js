@@ -1,25 +1,40 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor () {
+    super ()
+    this.state = {
+      weatherRange: null,
+      days: [
+        { name: 'Monday', description: 'Cloudy', high: 65.2, low: 55.5, airQuality: 'Unhealthy' },
+        { name: 'Tuesday', description: 'Cloudy', high: 65.2, low: 55.5, airQuality: 'Unhealthy'},
+        { name: 'Wednesday', description: 'Cloudy', high: 65.2, low: 55.5, airQuality: 'Very Unhealthy'},
+        { name: 'Thursday', description: 'Partly Cloudy', high: 65.2, low: 55.5, airQuality: 'Very Unhealthy'},
+        { name: 'Friday', description: 'Cloudy', high: 65.2, low: 55.5, airQuality: 'Moderate Unhealthy'},
+        { name: 'Saturday', description: 'Sunny', high: 65.2, low: 55.5, airQuality: 'Moderate Unhealthy'},
+        { name: 'Sunday', description: 'Sunny', high: 65.2, low: 55.5, airQuality: 'Good'}
+      ]
+    }
+  }
+
+  componentDidMount () {
+    const user = {
+      key: '123456'
+    }
+  }
   render() {
+    let range = undefined
+    if (this.state.weatherRange === 'week') {
+      range = 'test'
+    }
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <div>
+          {this.state.days.sort(range).map(day =>
+            <div>{day.name}</div>
+          )}
+        </div>
       </div>
     );
   }
