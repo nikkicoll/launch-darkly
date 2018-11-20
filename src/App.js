@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import LDClient from 'ldclient-js';
 
 class App extends Component {
   constructor () {
@@ -22,6 +23,12 @@ class App extends Component {
     const user = {
       key: '123456'
     }
+    this.ldclient = LDClient.initialize('5bf3854f8b34c34b45896257', user);
+    this.ldclient.on('ready', this.onReady.bind(this));
+  }
+
+  onReady() {
+    console.log('test:', this.ldclient.variation('show-air-quality'));
   }
   render() {
     let range = undefined
