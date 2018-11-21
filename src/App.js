@@ -6,7 +6,7 @@ class App extends Component {
   constructor () {
     super ()
     this.state = {
-      weatherRange: null,
+      accountType: 'standard',
       days: [
         { name: 'Monday', description: 'Cloudy', high: 65.2, low: 55.5, airQuality: 'Unhealthy' },
         { name: 'Tuesday', description: 'Cloudy', high: 65.2, low: 55.5, airQuality: 'Unhealthy'},
@@ -28,20 +28,42 @@ class App extends Component {
   }
 
   onReady() {
-    console.log('test:', this.ldclient.variation('show-air-quality'));
+    this.setState({
+      featureFlag: {
+        showAirQuality: this.ldclient.variation('show-air-quality')
+      }
+    })
   }
   render() {
-    let range = undefined
-    if (this.state.weatherRange === 'week') {
-      range = 'test'
+    let weatherData;
+
+    if (!this.state.featureFlag) {
+      return <div className="App">Please wait...</div>
     }
+
+    if(this.state.accountType === 'premium') {
+      weatherData = <div style={{display: 'flex'}}>
+                      {this.state.days.map(day => <div>{`${day.name}: ${day.description}, air quality: ${day.airQuality} `}</div>)}
+                    </div>
+    } else if (this.state.accountType === 'standard') {
+      weatherData = <div style={{display: 'flex'}}> {this.state.days.map(day => <div>{`${day.name}: ${day.description}`}</div>)} </div>
+    } else {
+      if (this.state.featureFlag.showAirQuality) {
+        weatherData = <div style={{display: 'flex'}}> {this.state.days.map(day => <div>{`${day.name}: ${day.description}, air quality: ${day.airQuality}  `}</div>)} </div>
+      } else {
+        weatherData = <div style={{display: 'flex'}}> {this.state.days.map(day => <div>{`${day.name}: ${day.description} `}</div>)} </div>
+      }
+    }
+
     return (
       <div className="App">
-        <div>
-          {this.state.days.sort(range).map(day =>
-            <div>{day.name}</div>
-          )}
-        </div>
+        <button 
+          style={{ backgroundColor: this.state.accountType === 'premium' ? '#4CAF50' : null}}
+          onClick={() => {this.setState({ accountType: 'premium' })}}>Premium</button>
+        <button 
+          style={{ backgroundColor: this.state.accountType === 'standard' ? '#4CAF50' : null}}
+          onClick={() => {this.setState({ accountType: 'standard' })}}>Standard</button>
+        <div className="App-main"> {weatherData} </div>
       </div>
     );
   }
