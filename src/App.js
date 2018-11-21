@@ -42,16 +42,16 @@ class App extends Component {
     }
 
     if(this.state.accountType === 'premium') {
-      weatherData = <div style={{display: 'flex'}}>
+      weatherData = <div>
                       {this.state.days.map(day => <div>{`${day.name}: ${day.description}, air quality: ${day.airQuality} `}</div>)}
                     </div>
     } else if (this.state.accountType === 'standard') {
-      weatherData = <div style={{display: 'flex'}}> {this.state.days.map(day => <div>{`${day.name}: ${day.description}`}</div>)} </div>
+      weatherData = <div> {this.state.days.map(day => <div>{`${day.name}: ${day.description}`}</div>)} </div>
     } else {
       if (this.state.featureFlag.showAirQuality) {
-        weatherData = <div style={{display: 'flex'}}> {this.state.days.map(day => <div>{`${day.name}: ${day.description}, air quality: ${day.airQuality}  `}</div>)} </div>
+        weatherData = <div> {this.state.days.map(day => <div>{`${day.name}: ${day.description}, air quality: ${day.airQuality}  `}</div>)} </div>
       } else {
-        weatherData = <div style={{display: 'flex'}}> {this.state.days.map(day => <div>{`${day.name}: ${day.description} `}</div>)} </div>
+        weatherData = <div> {this.state.days.map(day => <div>{`${day.name}: ${day.description} `}</div>)} </div>
       }
     }
 
